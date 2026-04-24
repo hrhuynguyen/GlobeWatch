@@ -1,20 +1,56 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Globe from "react-globe.gl";
 import type { GlobeMethods } from "react-globe.gl";
 
-import { severityColor } from "@/lib/severity";
-import type { CrisisPoint } from "@/types/crisis";
+import { formatModeValue, getCoverageSummary, getModeColor, getPointScale, VIEW_MODES } from "@/lib/globe-modes";
+import type { CrisisPoint, ViewMode } from "@/types/crisis";
 
 type InteractiveGlobeProps = {
   crises: CrisisPoint[];
   selected: CrisisPoint;
+  viewMode: ViewMode;
+  comparison: CrisisPoint | null;
+  isComparisonEnabled: boolean;
   onSelect: (crisis: CrisisPoint) => void;
 };
 
-export default function InteractiveGlobe({ crises, selected, onSelect }: InteractiveGlobeProps) {
+type ComparisonArc = {
+  startLat: number;
+  startLng: number;
+  endLat: number;
+  endLng: number;
+  color: string[];
+};
+
+export default function InteractiveGlobe({
+  crises,
+  selected,
+  viewMode,
+  comparison,
+  isComparisonEnabled,
+  onSelect
+}: InteractiveGlobeProps) {
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
+  const [hoveredIso3, setHoveredIso3] = useState<string | null>(null);
+  const comparisonIso3 = isComparisonEnabled ? comparison?.iso3 : null;
+
+  const comparisonArcs = useMemo<ComparisonArc[]>(() => {
+    if (!isComparisonEnabled || !comparison || comparison.iso3 === selected.iso3) {
+      return [];
+    }
+
+    return [
+      {
+        startLat: selected.lat,
+        startLng: selected.lng,
+        endLat: comparison.lat,
+        endLng: comparison.lng,
+        color: [getModeColor(selected, viewMode), getModeColor(comparison, viewMode)]
+      }
+    ];
+  }, [comparison, isComparisonEnabled, selected, viewMode]);
 
   useEffect(() => {
     const controls = globeRef.current?.controls();
@@ -53,31 +89,52 @@ export default function InteractiveGlobe({ crises, selected, onSelect }: Interac
         pointLng="lng"
         pointAltitude={(point) => {
           const crisis = point as CrisisPoint;
-          return crisis.iso3 === selected.iso3 ? 0.19 : 0.08 + crisis.severityScore / 900;
+          const isActive = crisis.iso3 === selected.iso3 || crisis.iso3 === hoveredIso3 || crisis.iso3 === comparisonIso3;
+          return isActive ? 0.2 : 0.07 + getPointScale(crisis, viewMode) / 8;
         }}
         pointRadius={(point) => {
           const crisis = point as CrisisPoint;
-          return crisis.iso3 === selected.iso3 ? 0.62 : 0.28 + crisis.peopleInNeed / 90000000;
+          const isActive = crisis.iso3 === selected.iso3 || crisis.iso3 === hoveredIso3 || crisis.iso3 === comparisonIso3;
+          return isActive ? 0.62 : 0.2 + getPointScale(crisis, viewMode) * 0.34;
         }}
-        pointColor={(point) => severityColor((point as CrisisPoint).severityScore)}
+        pointColor={(point) => getModeColor(point as CrisisPoint, viewMode)}
         pointLabel={(point) => {
           const crisis = point as CrisisPoint;
+          const mode = VIEW_MODES[viewMode];
           return `
             <div style="font-family: Verdana, sans-serif; padding: 10px;">
               <strong>${crisis.countryName}</strong><br/>
               ${crisis.crisisName}<br/>
-              Severity: ${crisis.severityScore}
+              ${mode.metricLabel}: ${formatModeValue(crisis, viewMode)}<br/>
+              ${getCoverageSummary(crisis)}
             </div>
           `;
         }}
         onPointClick={(point) => onSelect(point as CrisisPoint)}
+        onPointHover={(point) => setHoveredIso3(point ? (point as CrisisPoint).iso3 : null)}
         labelsData={crises}
         labelLat="lat"
         labelLng="lng"
         labelText={(point) => (point as CrisisPoint).iso3}
-        labelSize={(point) => ((point as CrisisPoint).iso3 === selected.iso3 ? 1.15 : 0.85)}
+        labelSize={(point) => {
+          const crisis = point as CrisisPoint;
+          return crisis.iso3 === selected.iso3 || crisis.iso3 === hoveredIso3 || crisis.iso3 === comparisonIso3 ? 1.2 : 0.82;
+        }}
         labelDotRadius={0.22}
-        labelColor={() => "rgba(247, 240, 223, 0.88)"}
+        labelColor={(point) => {
+          const crisis = point as CrisisPoint;
+          return crisis.iso3 === hoveredIso3 ? "#83e6c5" : "rgba(247, 240, 223, 0.88)";
+        }}
+        arcsData={comparisonArcs}
+        arcStartLat="startLat"
+        arcStartLng="startLng"
+        arcEndLat="endLat"
+        arcEndLng="endLng"
+        arcColor="color"
+        arcDashLength={0.35}
+        arcDashGap={0.08}
+        arcDashAnimateTime={1600}
+        arcStroke={0.75}
       />
     </div>
   );

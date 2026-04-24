@@ -120,22 +120,22 @@ MVP exit criteria:
 
 ## Phase 3: Globe Experience
 
-Status: [ ] Not finished
+Status: [x] Finished
 
 Turn the globe into the core product experience.
 
-1. [ ] Add view modes: `severity`, `funding-gap`, `overlooked`, `predictive-risk`.
-2. [ ] Add color scales and legends for each mode.
-3. [ ] Add country selection, hover spotlighting, and camera fly-to behavior.
-4. [ ] Add timeline filters for year and month.
-5. [ ] Add comparison mode that draws arcs between two countries.
+1. [x] Add view modes: `severity`, `funding-gap`, `overlooked`, `predictive-risk`.
+2. [x] Add color scales and legends for each mode.
+3. [x] Add country selection, hover spotlighting, and camera fly-to behavior.
+4. [x] Add timeline filters for year and month.
+5. [x] Add comparison mode that draws arcs between two countries.
 
 MVP exit criteria:
 
-- [ ] Users can switch map modes.
-- [ ] Users can filter by time.
-- [ ] Users can compare two countries visually.
-- [ ] Empty/loading/error states are visible and understandable.
+- [x] Users can switch map modes.
+- [x] Users can filter by time.
+- [x] Users can compare two countries visually.
+- [x] Empty/loading/error states are visible and understandable.
 
 ## Phase 4: Data Model
 

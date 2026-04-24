@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import type { CrisisPoint } from "@/types/crisis";
+import type { CrisisPoint, ViewMode } from "@/types/crisis";
 
 const InteractiveGlobe = dynamic(() => import("@/components/globe/InteractiveGlobe"), {
   ssr: false,
@@ -16,6 +16,9 @@ const InteractiveGlobe = dynamic(() => import("@/components/globe/InteractiveGlo
 type CrisisGlobeProps = {
   crises: CrisisPoint[];
   selected: CrisisPoint;
+  viewMode: ViewMode;
+  comparison: CrisisPoint | null;
+  isComparisonEnabled: boolean;
   onSelect: (crisis: CrisisPoint) => void;
 };
 

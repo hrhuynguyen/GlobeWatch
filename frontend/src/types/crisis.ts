@@ -1,5 +1,7 @@
 export type SeverityClass = "moderate" | "high" | "severe" | "critical";
 
+export type ViewMode = "severity" | "funding-gap" | "overlooked" | "predictive-risk";
+
 export type CrisisPoint = {
   iso3: string;
   countryName: string;

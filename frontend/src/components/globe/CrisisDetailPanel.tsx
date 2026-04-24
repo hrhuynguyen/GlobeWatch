@@ -3,16 +3,19 @@
 import { MapPin } from "lucide-react";
 
 import { compactNumber, percent, usd } from "@/lib/format";
-import { severityColor } from "@/lib/severity";
-import type { CrisisPoint } from "@/types/crisis";
+import { formatModeValue, getModeColor, VIEW_MODES } from "@/lib/globe-modes";
+import type { CrisisPoint, ViewMode } from "@/types/crisis";
 
 type CrisisDetailPanelProps = {
   crisis: CrisisPoint;
   crises: CrisisPoint[];
+  viewMode: ViewMode;
   onSelect: (crisis: CrisisPoint) => void;
 };
 
-export function CrisisDetailPanel({ crisis, crises, onSelect }: CrisisDetailPanelProps) {
+export function CrisisDetailPanel({ crisis, crises, viewMode, onSelect }: CrisisDetailPanelProps) {
+  const mode = VIEW_MODES[viewMode];
+
   return (
     <aside className="border-l border-white/10 bg-[#091617] p-5 lg:overflow-y-auto">
       <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
@@ -24,19 +27,20 @@ export function CrisisDetailPanel({ crisis, crises, onSelect }: CrisisDetailPane
           </div>
           <div
             className="rounded-2xl px-3 py-2 text-center text-sm font-bold text-ink"
-            style={{ backgroundColor: severityColor(crisis.severityScore) }}
+            style={{ backgroundColor: getModeColor(crisis, viewMode) }}
           >
-            {crisis.severityScore}
+            {formatModeValue(crisis, viewMode)}
           </div>
         </div>
 
         <p className="mt-6 leading-7 text-stone-300">{crisis.summary}</p>
 
         <div className="mt-6 grid gap-3">
+          <Stat label={mode.metricLabel} value={formatModeValue(crisis, viewMode)} emphasis />
           <Stat label="People in need" value={compactNumber(crisis.peopleInNeed)} />
           <Stat label="Funding requested" value={usd(crisis.fundingRequestedUsd)} />
           <Stat label="Funding received" value={usd(crisis.fundingReceivedUsd)} />
-          <Stat label="Funding gap" value={usd(crisis.fundingGapUsd)} emphasis />
+          <Stat label="Funding gap" value={usd(crisis.fundingGapUsd)} />
           <Stat label="Coverage ratio" value={percent(crisis.coverageRatio)} />
         </div>
 
@@ -68,9 +72,11 @@ export function CrisisDetailPanel({ crisis, crises, onSelect }: CrisisDetailPane
             >
               <span>
                 <span className="block font-bold">{item.countryName}</span>
-                <span className="text-sm text-stone-400">{item.iso3}</span>
+                <span className="text-sm text-stone-400">
+                  {item.iso3} · {formatModeValue(item, viewMode)}
+                </span>
               </span>
-              <span className="h-3 w-3 rounded-full" style={{ backgroundColor: severityColor(item.severityScore) }} />
+              <span className="h-3 w-3 rounded-full" style={{ backgroundColor: getModeColor(item, viewMode) }} />
             </button>
           ))}
         </div>
