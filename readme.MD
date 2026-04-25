@@ -1,6 +1,6 @@
 # GlobeWatch
 
-GlobeWatch is a from-scratch 3D humanitarian crisis intelligence platform inspired by Crisis Topography: Command Center. It visualizes crisis severity, people in need, funding gaps, and country-level humanitarian metrics through a cinematic globe interface backed by a FastAPI mock-data API.
+GlobeWatch is a from-scratch 3D humanitarian crisis intelligence platform inspired by Crisis Topography: Command Center. It visualizes crisis severity, people in need, funding gaps, and country-level humanitarian metrics through a cinematic globe interface backed by a FastAPI API.
 
 The goal is to grow this into an interactive command center where users can explore global crises, inspect country details, compare regions, ask natural-language questions, and eventually add AI, vector search, reports, and voice control.
 
@@ -11,12 +11,13 @@ Implemented:
 - Next.js landing page with a clear product pitch and CTA to the globe view.
 - `/globe` experience with an interactive 3D globe, severity-colored crisis markers, summary metric cards, and country drilldown panel.
 - FastAPI backend with CORS and typed Pydantic responses.
-- Sample crisis data loaded from `data/sample/crises.json`.
+- Live-data ingestion from OCHA HPC/FTS and World Bank population data, normalized into `Country`, `Crisis`, `Project`, and `GlobeSnapshot` models.
+- Processed 2026 crisis snapshot loaded from `data/processed/globe_snapshot_2026.json`, with fallback sample data in `data/sample/crises.json`.
 - Frontend API client that fetches crisis data from the backend at runtime.
+- Globe modes for severity, funding gap, overlooked crises, and predictive risk.
 
 Planned:
 
-- Globe modes for severity, funding gap, overlooked crises, and predictive risk.
 - Dashboard analytics with charts and top crisis summaries.
 - Natural-language query endpoint.
 - AI/RAG and vector-search integrations.
@@ -25,8 +26,8 @@ Planned:
 ## Tech Stack
 
 - Frontend: Next.js, React, TypeScript, Tailwind CSS, Three.js, `react-globe.gl`.
-- Backend: FastAPI, Python, Pydantic, Uvicorn.
-- Data: local JSON sample data for the MVP.
+- Backend: FastAPI, Python, Pydantic, Uvicorn, HTTPX.
+- Data: OCHA HPC/FTS, World Bank population API, processed JSON snapshots, and local sample fallback data.
 
 ## Project Structure
 
@@ -34,7 +35,9 @@ Planned:
 .
 ├── frontend/          # Next.js app
 ├── backend/           # FastAPI app
-├── data/sample/       # Local mock crisis data
+├── data/raw/          # Raw API responses from ingestion
+├── data/processed/    # Normalized app-ready snapshots
+├── data/sample/       # Local fallback crisis data
 ├── build_plan.md      # Phase-by-phase implementation plan
 ├── summary.md         # Repo/product summary
 └── .env.example       # Environment variable reference
@@ -54,7 +57,8 @@ Backend URLs:
 
 - API health: `http://localhost:8000/api/health`
 - API docs: `http://localhost:8000/docs`
-- Crisis data: `http://localhost:8000/api/globe/crises?year=2024&month=1`
+- Crisis data: `http://localhost:8000/api/globe/crises?year=2026&month=4`
+- Country projects: `http://localhost:8000/api/globe/projects?iso3=SDN`
 
 If the virtual environment does not exist yet:
 
@@ -87,6 +91,18 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
 This value is already documented in `.env.example`.
+
+## Refresh Live Data
+
+The current snapshot was generated from public OCHA HPC/FTS 2026 data and World Bank population data. To refresh it:
+
+```bash
+cd backend
+source venv/bin/activate
+python -m app.jobs.ingest_live_data --year 2026 --month 4 --limit 12
+```
+
+This writes raw API responses to `data/raw/` and the normalized globe dataset to `data/processed/globe_snapshot_2026.json`.
 
 ## Build Check
 

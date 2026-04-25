@@ -12,10 +12,7 @@ def list_crises(
     year: int | None = Query(default=None, ge=2000, le=2100),
     month: int | None = Query(default=None, ge=1, le=12),
 ) -> list[CrisisPoint]:
-    # The Phase 2 dataset is static; filters are accepted now so the frontend
-    # contract will not change when time-series data is added later.
-    _ = (year, month)
-    return load_crises()
+    return load_crises(year=year, month=month)
 
 
 @router.get("/countries/{iso3}", response_model=CrisisPoint)
@@ -34,4 +31,3 @@ def list_projects(iso3: str | None = Query(default=None, min_length=3, max_lengt
         raise HTTPException(status_code=404, detail=f"No projects found for {iso3.upper()}")
 
     return projects
-

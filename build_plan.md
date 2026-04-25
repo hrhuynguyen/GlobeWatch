@@ -139,7 +139,7 @@ MVP exit criteria:
 
 ## Phase 4: Data Model
 
-Status: [ ] Not finished
+Status: [x] Finished
 
 Define the core data model before adding external data systems.
 
@@ -190,6 +190,21 @@ funding_per_capita = funding_received_usd / people_in_need
 b2b_ratio = target_beneficiaries / requested_funds
 oversight_score = weighted combination of high severity, low coverage, and low media/funding attention
 ```
+
+Implementation checklist:
+
+1. [x] Add typed `Country`, `Crisis`, `Project`, and `GlobeSnapshot` backend models.
+2. [x] Add derived metric helpers for funding gap, coverage ratio, funding per capita, severity, and oversight score.
+3. [x] Add live-data clients for OCHA HPC/FTS and World Bank population data.
+4. [x] Add a repeatable ingestion command that writes raw API responses to `data/raw/` and normalized data to `data/processed/`.
+5. [x] Update the globe API loader to prefer processed live snapshots and fall back to sample data.
+6. [x] Seed the app with latest 2026 OCHA/FTS data available on April 24, 2026.
+
+MVP exit criteria:
+
+- [x] `GET /api/globe/crises?year=2026&month=4` serves normalized latest data.
+- [x] `GET /api/globe/projects?iso3=SDN` serves derived cluster/project envelopes.
+- [x] The frontend API contract remains camelCase-compatible.
 
 ## Phase 5: Analytics Dashboard
 

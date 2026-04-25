@@ -1,33 +1,7 @@
-from pydantic import BaseModel
+from app.models.globe import Country, Crisis, GlobeSnapshot, Project
 
 
-class CrisisPoint(BaseModel):
-    iso3: str
-    countryName: str
-    crisisName: str
-    lat: float
-    lng: float
-    region: str
-    severityScore: int
-    severityClass: str
-    peopleInNeed: int
-    fundingRequestedUsd: int
-    fundingReceivedUsd: int
-    fundingGapUsd: int
-    coverageRatio: float
-    lastUpdated: str
-    summary: str
+CrisisPoint = Crisis
 
-
-class Project(BaseModel):
-    projectId: str
-    projectCode: str
-    iso3: str
-    projectName: str
-    cluster: str
-    requestedFunds: int
-    targetBeneficiaries: int
-    b2bRatio: float
-    costPerBeneficiary: float
-    anomalyScore: float
+__all__ = ["Country", "Crisis", "CrisisPoint", "GlobeSnapshot", "Project"]
 
