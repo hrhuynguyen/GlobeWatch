@@ -2,6 +2,7 @@
 
 import { MapPin } from "lucide-react";
 
+import { CrisisQueryPanel } from "@/components/globe/CrisisQueryPanel";
 import { compactNumber, percent, usd } from "@/lib/format";
 import { formatModeValue, getModeColor, VIEW_MODES } from "@/lib/globe-modes";
 import type { CrisisPoint, ViewMode } from "@/types/crisis";
@@ -10,14 +11,18 @@ type CrisisDetailPanelProps = {
   crisis: CrisisPoint;
   crises: CrisisPoint[];
   viewMode: ViewMode;
+  year: number;
+  month: number;
   onSelect: (crisis: CrisisPoint) => void;
 };
 
-export function CrisisDetailPanel({ crisis, crises, viewMode, onSelect }: CrisisDetailPanelProps) {
+export function CrisisDetailPanel({ crisis, crises, viewMode, year, month, onSelect }: CrisisDetailPanelProps) {
   const mode = VIEW_MODES[viewMode];
 
   return (
     <aside className="border-l border-white/10 bg-[#091617] p-5 lg:overflow-y-auto">
+      <CrisisQueryPanel selected={crisis} crises={crises} year={year} month={month} onSelect={onSelect} />
+
       <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
         <div className="flex items-start justify-between gap-4">
           <div>

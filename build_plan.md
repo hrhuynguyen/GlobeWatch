@@ -14,7 +14,7 @@ Build a web platform similar to Crisis Topography: an interactive 3D globe that 
 - **Frontend:** Next.js, React, TypeScript, Tailwind CSS, Three.js or globe.gl, Framer Motion, Recharts.
 - **Backend:** FastAPI, Python, Pydantic, httpx, pandas.
 - **Data:** Start with local CSV/JSON sample data, then connect Databricks/Postgres/vector search later.
-- **AI:** Start with text query stubs, then add RAG, natural-language SQL, predictive analysis, and voice.
+- **AI:** Start with text query stubs, then add RAG, natural-language SQL, predictive analysis, and voice. If using an external LLM, add a provider such as Gemini through `GEMINI_API_KEY` or equivalent environment variables.
 - **Deployment:** Vercel for frontend, Render/Fly.io/Vultr/AWS for backend.
 
 ## Initial Folder Architecture
@@ -225,15 +225,16 @@ MVP exit criteria:
 
 ## Phase 6: Natural-Language Querying
 
-Status: [ ] Not finished
+Status: [x] Finished
 
-Start with deterministic backend logic, then add LLM support.
+Start with deterministic backend logic, then add LLM support. Keep the first version rule-based so answers stay grounded in current crisis data, then add an LLM provider such as Gemini once the query contract is stable.
 
-1. [ ] Create `POST /api/ask`.
-2. [ ] For the first version, parse common questions with rule-based handlers.
-3. [ ] Return answer text plus structured sources.
-4. [ ] Add a frontend query bar on `/globe`.
-5. [ ] Later, replace or augment rules with RAG/vector search.
+1. [x] Create `POST /api/ask`.
+2. [x] For the first version, parse common questions with rule-based handlers.
+3. [x] Return answer text plus structured sources.
+4. [x] Add a frontend query bar on `/globe`.
+5. [x] Add `.env.example` entries for optional LLM settings such as `LLM_PROVIDER=gemini`, `GEMINI_API_KEY`, and `GEMINI_MODEL`.
+6. [x] Later, replace or augment rules with Gemini-backed RAG/vector search.
 
 Example questions:
 
@@ -246,21 +247,22 @@ Compare Sudan and Yemen.
 
 MVP exit criteria:
 
-- [ ] Query bar returns useful answers for common questions.
-- [ ] Answers cite countries and metrics from the current dataset.
-- [ ] Failure states do not break the globe.
+- [x] Query bar returns useful answers for common questions.
+- [x] Answers cite countries and metrics from the current dataset.
+- [x] Failure states do not break the globe.
 
 ## Phase 7: AI and Vector Search
 
-Status: [ ] Not finished
+Status: [x] Finished
 
-Add AI integrations after the deterministic system works.
+Add AI integrations after the deterministic system works. Gemini is a good default option for this project, but keep the backend provider interface generic so another LLM can be swapped in later.
 
-1. [ ] Create embeddings for project descriptions and crisis summaries.
-2. [ ] Store embeddings in a vector database or Databricks Vector Search.
-3. [ ] Add semantic project benchmarking.
-4. [ ] Add RAG answers grounded in retrieved project/crisis records.
-5. [ ] Add predictive-risk generation from anomaly patterns.
+1. [x] Create embeddings for project descriptions and crisis summaries.
+2. [x] Store embeddings in a vector database, Databricks Vector Search, or demo-mode fallback.
+   Current implementation uses a local sparse in-memory vector index as the demo-mode fallback. Databricks Vector Search can replace the service internals later without changing the API contract.
+3. [x] Add semantic project benchmarking.
+4. [x] Add RAG answers grounded in retrieved project/crisis records.
+5. [x] Add predictive-risk generation from anomaly patterns.
 
 Backend endpoints:
 
@@ -272,9 +274,9 @@ POST /api/predictive/risks
 
 MVP exit criteria:
 
-- [ ] Vector search has demo-mode fallback.
-- [ ] RAG answers include sources.
-- [ ] Predictive risk output is schema-validated before returning to the frontend.
+- [x] Vector search has demo-mode fallback.
+- [x] RAG answers include sources.
+- [x] Predictive risk output is schema-validated before returning to the frontend.
 
 ## Phase 8: Voice Agent
 

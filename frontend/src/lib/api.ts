@@ -1,5 +1,7 @@
 import type { CrisisPoint } from "@/types/crisis";
 import type { DashboardSummary } from "@/types/dashboard";
+import type { AskRequest, AskResponse } from "@/types/ask";
+import type { BenchmarkRequest, BenchmarkResponse, PredictiveRiskRequest, PredictiveRiskResponse } from "@/types/ai";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -41,4 +43,64 @@ export async function fetchDashboardSummary(
   }
 
   return response.json() as Promise<DashboardSummary>;
+}
+
+export async function askCrisisQuestion(request: AskRequest, signal?: AbortSignal): Promise<AskResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/ask`, {
+    method: "POST",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(request),
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to answer question: ${response.status}`);
+  }
+
+  return response.json() as Promise<AskResponse>;
+}
+
+export async function benchmarkCrisisRecords(
+  request: BenchmarkRequest,
+  signal?: AbortSignal
+): Promise<BenchmarkResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/benchmark`, {
+    method: "POST",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(request),
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to benchmark records: ${response.status}`);
+  }
+
+  return response.json() as Promise<BenchmarkResponse>;
+}
+
+export async function fetchPredictiveRisks(
+  request: PredictiveRiskRequest,
+  signal?: AbortSignal
+): Promise<PredictiveRiskResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/predictive/risks`, {
+    method: "POST",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(request),
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load predictive risks: ${response.status}`);
+  }
+
+  return response.json() as Promise<PredictiveRiskResponse>;
 }

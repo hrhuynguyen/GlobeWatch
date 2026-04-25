@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import dashboard, globe, health
+from app.routers import ai, ask, dashboard, globe, health
 
 
 def parse_cors_origins() -> list[str]:
@@ -28,3 +28,5 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(globe.router)
 app.include_router(dashboard.router)
+app.include_router(ask.router)
+app.include_router(ai.router)

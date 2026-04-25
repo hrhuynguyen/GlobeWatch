@@ -16,8 +16,8 @@ export default function GlobePage() {
             <h1 className="mt-2 font-display text-3xl text-stone-50 md:text-4xl">Crisis Globe</h1>
           </div>
           <p className="max-w-2xl text-sm leading-6 text-stone-300">
-            Phase 2 API-backed MVP: crisis markers are loaded from the FastAPI backend, then rendered
-            with severity colors and country drilldowns.
+            Phase 6 command center: crisis markers, dashboard metrics, and natural-language answers are loaded
+            from the FastAPI backend and grounded in the current crisis dataset.
           </p>
         </header>
         <CrisisCommandCenter />

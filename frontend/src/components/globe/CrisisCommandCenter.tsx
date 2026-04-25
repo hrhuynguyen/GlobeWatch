@@ -212,7 +212,14 @@ export function CrisisCommandCenter() {
         </div>
       </div>
       {selected ? (
-        <CrisisDetailPanel crisis={selected} crises={crises} viewMode={viewMode} onSelect={setSelected} />
+        <CrisisDetailPanel
+          crisis={selected}
+          crises={crises}
+          viewMode={viewMode}
+          year={year}
+          month={month}
+          onSelect={setSelected}
+        />
       ) : (
         <aside className="border-l border-white/10 bg-[#091617] p-5">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 text-stone-300">

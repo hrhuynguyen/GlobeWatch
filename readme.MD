@@ -16,11 +16,11 @@ Implemented:
 - Frontend API client that fetches crisis data from the backend at runtime.
 - Globe modes for severity, funding gap, overlooked crises, and predictive risk.
 - `/dashboard` analytics view with API-backed cards, funding trend, underfunded-country rankings, and cluster distribution.
+- `/api/ask` natural-language query layer with rule-based metric answers plus grounded RAG for open-ended questions.
+- Phase 7 AI endpoints for semantic benchmarking and predictive risk signals.
 
 Planned:
 
-- Natural-language query endpoint.
-- AI/RAG and vector-search integrations.
 - Voice-agent controls and downloadable reports.
 
 ## Tech Stack
@@ -60,6 +60,9 @@ Backend URLs:
 - Crisis data: `http://localhost:8000/api/globe/crises?year=2026&month=4`
 - Country projects: `http://localhost:8000/api/globe/projects?iso3=SDN`
 - Dashboard summary: `http://localhost:8000/api/dashboard/summary?year=2026&month=4`
+- Natural-language query: `POST http://localhost:8000/api/ask`
+- Semantic benchmark: `POST http://localhost:8000/api/benchmark`
+- Predictive risks: `POST http://localhost:8000/api/predictive/risks`
 
 If the virtual environment does not exist yet:
 
@@ -93,6 +96,16 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
 This value is already documented in `.env.example`.
+
+AI/RAG settings are optional. By default, GlobeWatch uses local sparse embeddings and deterministic fallback answers. To enable Gemini synthesis for grounded RAG answers, set `LLM_PROVIDER=gemini` and provide `GEMINI_API_KEY`:
+
+```text
+LLM_PROVIDER=rule-based
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+EMBEDDING_PROVIDER=local-sparse
+VECTOR_STORE=local-memory
+```
 
 ## Refresh Live Data
 
