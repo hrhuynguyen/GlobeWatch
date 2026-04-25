@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import ai, ask, dashboard, globe, health
+from app.routers import ai, ask, dashboard, globe, health, voice
 
 
 def parse_cors_origins() -> list[str]:
@@ -30,3 +30,4 @@ app.include_router(globe.router)
 app.include_router(dashboard.router)
 app.include_router(ask.router)
 app.include_router(ai.router)
+app.include_router(voice.router)

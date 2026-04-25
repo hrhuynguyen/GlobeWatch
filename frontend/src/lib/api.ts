@@ -2,6 +2,7 @@ import type { CrisisPoint } from "@/types/crisis";
 import type { DashboardSummary } from "@/types/dashboard";
 import type { AskRequest, AskResponse } from "@/types/ask";
 import type { BenchmarkRequest, BenchmarkResponse, PredictiveRiskRequest, PredictiveRiskResponse } from "@/types/ai";
+import type { VoiceConfig, VoiceLiveToken } from "@/types/voice";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -103,4 +104,31 @@ export async function fetchPredictiveRisks(
   }
 
   return response.json() as Promise<PredictiveRiskResponse>;
+}
+
+export async function fetchVoiceConfig(signal?: AbortSignal): Promise<VoiceConfig> {
+  const response = await fetch(`${API_BASE_URL}/api/voice/config`, {
+    cache: "no-store",
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load voice config: ${response.status}`);
+  }
+
+  return response.json() as Promise<VoiceConfig>;
+}
+
+export async function requestVoiceLiveToken(signal?: AbortSignal): Promise<VoiceLiveToken> {
+  const response = await fetch(`${API_BASE_URL}/api/voice/live-token`, {
+    method: "POST",
+    cache: "no-store",
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create voice token: ${response.status}`);
+  }
+
+  return response.json() as Promise<VoiceLiveToken>;
 }

@@ -107,6 +107,14 @@ EMBEDDING_PROVIDER=local-sparse
 VECTOR_STORE=local-memory
 ```
 
+Voice settings are also optional. The Phase 8 voice agent uses browser push-to-talk and text fallback by default. For the low-latency Gemini Live path, keep the API key on the backend and set:
+
+```bash
+VOICE_PROVIDER=gemini-live
+GEMINI_API_KEY=your_key_here
+GEMINI_LIVE_MODEL=gemini-3.1-flash-live-preview
+```
+
 ## Refresh Live Data
 
 The current snapshot was generated from public OCHA HPC/FTS 2026 data and World Bank population data. To refresh it:

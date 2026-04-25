@@ -6,6 +6,7 @@ import type { LucideIcon } from "lucide-react";
 
 import { CrisisDetailPanel } from "@/components/globe/CrisisDetailPanel";
 import { CrisisGlobe } from "@/components/globe/CrisisGlobe";
+import { VoiceAgentPanel } from "@/components/globe/VoiceAgentPanel";
 import { fetchCrises } from "@/lib/api";
 import { compactNumber, usd } from "@/lib/format";
 import { formatModeValue, getModeColor, VIEW_MODES } from "@/lib/globe-modes";
@@ -159,6 +160,20 @@ export function CrisisCommandCenter() {
         ) : (
           <StatusPanel title="No crisis data" message="The API returned an empty crisis dataset." />
         )}
+        {selected ? (
+          <div className="absolute bottom-5 left-5 z-20 hidden w-[30rem] max-w-[calc(100%-2.5rem)] xl:block">
+            <VoiceAgentPanel
+              selected={selected}
+              crises={crises}
+              year={year}
+              month={month}
+              onSelect={setSelected}
+              onSetViewMode={setViewMode}
+              onSetComparisonIso3={setComparisonIso3}
+              onSetComparisonEnabled={setIsComparisonEnabled}
+            />
+          </div>
+        ) : null}
         <div className="absolute bottom-5 left-5 right-5 z-10 rounded-3xl border border-white/10 bg-black/35 p-4 text-sm text-stone-300 backdrop-blur md:left-auto md:w-[26rem]">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -212,14 +227,28 @@ export function CrisisCommandCenter() {
         </div>
       </div>
       {selected ? (
-        <CrisisDetailPanel
-          crisis={selected}
-          crises={crises}
-          viewMode={viewMode}
-          year={year}
-          month={month}
-          onSelect={setSelected}
-        />
+        <div className="border-l border-white/10 bg-[#091617] lg:overflow-y-auto">
+          <div className="p-5 xl:hidden">
+            <VoiceAgentPanel
+              selected={selected}
+              crises={crises}
+              year={year}
+              month={month}
+              onSelect={setSelected}
+              onSetViewMode={setViewMode}
+              onSetComparisonIso3={setComparisonIso3}
+              onSetComparisonEnabled={setIsComparisonEnabled}
+            />
+          </div>
+          <CrisisDetailPanel
+            crisis={selected}
+            crises={crises}
+            viewMode={viewMode}
+            year={year}
+            month={month}
+            onSelect={setSelected}
+          />
+        </div>
       ) : (
         <aside className="border-l border-white/10 bg-[#091617] p-5">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 text-stone-300">

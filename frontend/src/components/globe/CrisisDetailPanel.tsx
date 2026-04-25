@@ -20,7 +20,7 @@ export function CrisisDetailPanel({ crisis, crises, viewMode, year, month, onSel
   const mode = VIEW_MODES[viewMode];
 
   return (
-    <aside className="border-l border-white/10 bg-[#091617] p-5 lg:overflow-y-auto">
+    <aside className="p-5">
       <CrisisQueryPanel selected={crisis} crises={crises} year={year} month={month} onSelect={onSelect} />
 
       <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">

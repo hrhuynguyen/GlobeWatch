@@ -280,15 +280,21 @@ MVP exit criteria:
 
 ## Phase 8: Voice Agent
 
-Status: [ ] Not finished
+Status: [x] Finished
 
 Add voice only after the core UI and APIs are stable.
 
-1. [ ] Add an ElevenLabs or Web Speech API voice interface.
-2. [ ] Start with push-to-talk.
-3. [ ] Map voice commands to safe client tools.
-4. [ ] Add visible listening/speaking/error states.
-5. [ ] Keep text input as fallback.
+Voice model choice:
+
+- [x] Use `gemini-3.1-flash-live-preview` as the primary low-latency voice model.
+- [x] Keep Web Speech API as the local/browser fallback for demos and unsupported environments.
+- [x] Keep `GEMINI_API_KEY` server-side and expose only short-lived Live API tokens through the backend.
+
+1. [x] Add a Gemini Live / Web Speech API voice interface.
+2. [x] Start with push-to-talk.
+3. [x] Map voice commands to safe client tools.
+4. [x] Add visible listening/speaking/error states.
+5. [x] Keep text input as fallback.
 
 Voice commands:
 
@@ -303,9 +309,9 @@ Reset the view.
 
 MVP exit criteria:
 
-- [ ] Voice can control globe navigation and mode changes.
-- [ ] Voice failures are visible.
-- [ ] User can complete the same tasks with text input.
+- [x] Voice can control globe navigation and mode changes.
+- [x] Voice failures are visible.
+- [x] User can complete the same tasks with text input.
 
 ## Phase 9: Reports
 
