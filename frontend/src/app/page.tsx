@@ -28,12 +28,20 @@ export default function Home() {
           <Link href="/" className="text-sm font-bold uppercase tracking-[0.32em] text-mint">
             GlobeWatch
           </Link>
-          <Link
-            href="/globe"
-            className="rounded-full border border-white/15 px-4 py-2 text-sm text-stone-200 transition hover:border-mint hover:text-mint"
-          >
-            Open globe
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              className="rounded-full border border-white/15 px-4 py-2 text-sm text-stone-200 transition hover:border-mint hover:text-mint"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/globe"
+              className="rounded-full border border-white/15 px-4 py-2 text-sm text-stone-200 transition hover:border-mint hover:text-mint"
+            >
+              Open globe
+            </Link>
+          </div>
         </nav>
 
         <div className="grid items-end gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr]">
@@ -56,12 +64,12 @@ export default function Home() {
                 Explore crisis globe
                 <ArrowRight size={18} />
               </Link>
-              <a
-                href="#features"
+              <Link
+                href="/dashboard"
                 className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 font-bold text-stone-100 transition hover:border-stone-100"
               >
-                View features
-              </a>
+                View dashboard
+              </Link>
             </div>
           </div>
 

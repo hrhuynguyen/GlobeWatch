@@ -15,10 +15,10 @@ Implemented:
 - Processed 2026 crisis snapshot loaded from `data/processed/globe_snapshot_2026.json`, with fallback sample data in `data/sample/crises.json`.
 - Frontend API client that fetches crisis data from the backend at runtime.
 - Globe modes for severity, funding gap, overlooked crises, and predictive risk.
+- `/dashboard` analytics view with API-backed cards, funding trend, underfunded-country rankings, and cluster distribution.
 
 Planned:
 
-- Dashboard analytics with charts and top crisis summaries.
 - Natural-language query endpoint.
 - AI/RAG and vector-search integrations.
 - Voice-agent controls and downloadable reports.
@@ -59,6 +59,7 @@ Backend URLs:
 - API docs: `http://localhost:8000/docs`
 - Crisis data: `http://localhost:8000/api/globe/crises?year=2026&month=4`
 - Country projects: `http://localhost:8000/api/globe/projects?iso3=SDN`
+- Dashboard summary: `http://localhost:8000/api/dashboard/summary?year=2026&month=4`
 
 If the virtual environment does not exist yet:
 
@@ -83,6 +84,7 @@ Frontend URLs:
 
 - Landing page: `http://localhost:3000`
 - Globe page: `http://localhost:3000/globe`
+- Dashboard page: `http://localhost:3000/dashboard`
 
 The frontend expects the backend at:
 

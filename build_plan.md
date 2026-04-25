@@ -208,20 +208,20 @@ MVP exit criteria:
 
 ## Phase 5: Analytics Dashboard
 
-Status: [ ] Not finished
+Status: [x] Finished
 
 Add a dashboard route for summary analytics.
 
-1. [ ] Add `/dashboard`.
-2. [ ] Add metric cards for crises, people in need, total funding gap, and worst mismatch.
-3. [ ] Add charts for funding over time, top underfunded countries, and cluster distribution.
-4. [ ] Reuse backend API methods rather than duplicating data logic in the frontend.
+1. [x] Add `/dashboard`.
+2. [x] Add metric cards for crises, people in need, total funding gap, and worst mismatch.
+3. [x] Add charts for funding over time, top underfunded countries, and cluster distribution.
+4. [x] Reuse backend API methods rather than duplicating data logic in the frontend.
 
 MVP exit criteria:
 
-- [ ] Dashboard loads from API data.
-- [ ] Charts and cards match globe data.
-- [ ] Dashboard can be demoed without voice or AI features.
+- [x] Dashboard loads from API data.
+- [x] Charts and cards match globe data.
+- [x] Dashboard can be demoed without voice or AI features.
 
 ## Phase 6: Natural-Language Querying
 
